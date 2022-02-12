@@ -12,7 +12,7 @@ _start:
 	call printf
 	add esp,4
 	
-	; Input
+	; input
 	push y
 	push x
 	push input
@@ -20,36 +20,37 @@ _start:
 	add esp,12
 	
 	; moving x and y
-	mov ebx,[y]
-	mov ecx,[x]
 	
-	; call our import function
+	mov eax,[y]
+	mov ebx,[x]
+	
+	; calling our imported function
+	push dword eax
 	push dword ebx
-	push dword ecx
 	call _chalchuite
 	add esp,8
 	
-	; our answer will be in edx
-	mov edx,eax
+	; our answer will be in ecx
 	
-	; consider the result
+	mov ecx,eax
+	
+	; considering the result and comparing
 	
 		; isn't it summary?
 		mov eax,[x]
 		add eax,[y]
-		cmp edx,eax
+		cmp eax,ecx
 		je summary
 		
 		; isn't it difference?
 		mov eax,[x]
 		sub eax,[y]
-		cmp eax,edx
+		cmp eax,ecx
 		je difference
 		
 		; isn't it multiplication?
-		mov ecx,edx
 		mov eax,[x]
-		mov bx,[y]
+		mov bx, [y]
 		mul bx
 		cmp eax,ecx
 		je multiplication
@@ -66,15 +67,32 @@ _start:
 		mov eax,[x]
 		mov bx, [y]
 		div bx
-		cmp eax,edx
+		cmp edx,ecx
 		je remainder
 		
 		; isn't it bit and?
 		
 		mov eax,[x]
 		mov ebx,[y]
+		and eax,ebx
+		cmp eax,ecx
+		je land
 		
-	; compare results
+		; isn't it bit or?
+		mov eax,[x]
+		mov ebx,[y]
+		or eax,ebx
+		cmp eax,ecx
+		je lor
+		
+		; isn't it bit xor?
+		mov eax,[x]
+		mov ebx,[y]
+		xor eax,ebx
+		cmp eax,ecx
+		je lxor
+		
+	; print out result
 	summary:
 		push eax
 		push msgSum
@@ -99,21 +117,25 @@ _start:
 		jmp _end
 	
 	remainder:
+		push edx
 		push msgRem
 		call printf
 		jmp _end
 		
 	land:
+		push eax
 		push msgAnd
 		call printf
 		jmp _end
 		
 	lor:
+		push eax
 		push msgOr
 		call printf
 		jmp _end
 		
 	lxor:
+		push eax
 		push msgXor
 		call printf
 		jmp _end
@@ -122,7 +144,7 @@ _start:
 	
 	; end
 	_end:
-		add esp,4
+		add esp,8
 		push dword 0
 		call exit
 
