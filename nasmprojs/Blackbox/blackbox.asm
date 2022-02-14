@@ -1,9 +1,13 @@
 extern exit
 extern scanf
 extern printf
-extern _chalchuite
+extern _magnetics
 global _start
-
+;blackbox-02.exe  -- bit or
+;blackbox-03.exe  -- multiplication
+;blackbox-09.exe  -- division
+;blackbox-11.exe  -- bit and 
+;blackbox-12.exe  -- bit xor
 section .text
 
 _start:
@@ -21,19 +25,14 @@ _start:
 	
 	; moving x and y
 	
-	mov eax,[y]
-	mov ebx,[x]
-	
 	; calling our imported function
-	push dword eax
-	push dword ebx
-	call _chalchuite
+	push dword [y]
+	push dword [x]
+	call _magnetics
 	add esp,8
-	
 	; our answer will be in ecx
 	
 	mov ecx,eax
-	
 	; considering the result and comparing
 	
 		; isn't it summary?
@@ -82,6 +81,7 @@ _start:
 		mov eax,[x]
 		mov ebx,[y]
 		or eax,ebx
+		add esp,8
 		cmp eax,ecx
 		je lor
 		
@@ -98,6 +98,7 @@ _start:
 		push msgSum
 		call printf
 		jmp _end
+		
 	difference:
 		push eax
 		push msgDif
@@ -123,19 +124,16 @@ _start:
 		jmp _end
 		
 	land:
-		push eax
 		push msgAnd
 		call printf
 		jmp _end
 		
 	lor:
-		push eax
 		push msgOr
 		call printf
 		jmp _end
 		
 	lxor:
-		push eax
 		push msgXor
 		call printf
 		jmp _end
@@ -159,9 +157,9 @@ section .data
 	msgMult:db "Operation is Multiplication, result = %d",0xa,0
 	msgDiv:	db "Operation is Division, result = %d",0xa,0
 	msgRem:	db "Operation is Remainder, result = %d",0xa,0
-	msgAnd:	db "Operation is bit and, result = %d",0xa,0
-	msgOr:	db "Operation is bit or, result = %d",0xa,0
-	msgXor:	db "Operation is bit xor, result = %d",0xa,0
+	msgAnd:	db "Operation is bit and",0xa,0
+	msgOr:	db "Operation is bit or",0xa,0
+	msgXor:	db "Operation is bit xor",0xa,0
 	
 
 section .bss
