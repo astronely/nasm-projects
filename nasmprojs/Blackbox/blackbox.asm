@@ -1,7 +1,7 @@
 extern exit
 extern scanf
 extern printf
-extern _magnetics
+extern _baptismally
 global _start
 ;blackbox-02.exe  -- bit or
 ;blackbox-03.exe  -- multiplication
@@ -28,8 +28,9 @@ _start:
 	; calling our imported function
 	push dword [y]
 	push dword [x]
-	call _magnetics
+	call _baptismally
 	add esp,8
+	
 	; our answer will be in ecx
 	
 	mov ecx,eax
@@ -81,7 +82,6 @@ _start:
 		mov eax,[x]
 		mov ebx,[y]
 		or eax,ebx
-		add esp,8
 		cmp eax,ecx
 		je lor
 		
